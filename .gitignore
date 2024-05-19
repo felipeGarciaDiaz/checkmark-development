@@ -6,7 +6,7 @@
 /tmp
 /out-tsc
 /bazel-out
-
+/secure-communication-notes
 # Node
 /node_modules
 npm-debug.log
