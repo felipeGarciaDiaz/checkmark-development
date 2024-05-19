@@ -1,30 +1,45 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  APP_INITIALIZER,
+  NgModule,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module'; // Make sure this imports your routes correctly
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppComponent } from './app.component';
-import { CurrencyPipe } from '@angular/common';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastComponent } from './components/toast/toast.component';
+import { HomeComponent } from './views/home/home.component';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
-
+    HomeComponent,
+    ToastComponent,
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     BrowserModule,
-    AppRoutingModule, // This should be the only routing module you need here
-    HttpClientModule,
     BrowserAnimationsModule,
-    NoopAnimationsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
     FormsModule,
-
+    AppRoutingModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    
   ],
-  providers: [CurrencyPipe],
-  bootstrap: [AppComponent]
+  providers: [
+    
+  ],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }
