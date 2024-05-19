@@ -1,1 +1,18 @@
-<p>home works!</p>
+<div class="home">
+  <div class="home--search-req">
+    <h1>CHECK<span class="cm--highlight">MARK</span></h1>
+    <form [formGroup]="search" (ngSubmit)="onSubmit()">
+      <div class="input-wrapper">
+        <input formControlName="query" placeholder="Search">
+        <button class="cm--search-req-btn" type="submit">SEARCH</button>
+      </div>
+    </form>
+    <div class="home--special-req">
+        <button (click)="onReqNewItem()">ADD INDEX</button>
+        <button (click)="onViewExpiring()">VIEW EXPIRING</button>
+        <button (click)="onCrossReference()">REFERENCE</button>
+
+    </div>
+    <app-toast *ngIf="toast.isError" [message]="toast.message" [type]="toast.status"></app-toast>
+  </div>
+</div>
