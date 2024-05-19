@@ -1,0 +1,37 @@
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+
+*.html linguist-language=ignore
+
+* text=auto
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+
+*.lock merge=ours
+
+*.log export-ignore
+*.tmp export-ignore
+*.bak export-ignore
+
+node_modules/**/* linguist-vendored
+vendor/**/* linguist-vendored
+
+*.js linguist-language=JavaScript
+*.py linguist-language=Python
+
+*.zip binary
+*.tar.gz binary
+
+*.min.js linguist-generated=true
+*.min.css linguist-generated=true
+
+*.md diff=markdown
+*.json diff=json
+*.xml diff=xml
+
+*.sh eol=lf
+*.bat eol=crlf
