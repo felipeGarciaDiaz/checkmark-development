@@ -15,7 +15,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastComponent } from './components/toast/toast.component';
 import { HomeComponent } from './views/home/home.component';
-
+import { ResultsComponent } from './views/results/results.component';
+import { ApiService } from './_services/api.service';
+import { CsrfInterceptor } from './_interceptors/http';
 
 
 @NgModule({
@@ -37,7 +39,12 @@ import { HomeComponent } from './views/home/home.component';
     
   ],
   providers: [
-    
+    ApiService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CsrfInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

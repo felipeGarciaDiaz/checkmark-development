@@ -1,18 +1,46 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   public url: string = environment.apiUrl;
+  public csrfToken: string | null = null;
+  public type: any = {
+    general: '/general',
+    maitenance: '/maitenance',
+    checkmark: '/api'
+  }
   constructor(private http: HttpClient) { }
 
-  public getSearchRequests(): Observable<any> {
-    return this.http.get(`${this.url}/getCopyrights`, {}).pipe(
+  public setCSRFToken(): Observable<any> {
+    return this.http.get<{ csrfToken: string}>(`${this.url + this.type.general}/csrf-token`).pipe(
       map((data: any) => {
         console.log('Data:', data);
+        return data;
+      }),
+      catchError((error: any) => {
+        console.error('Error getting CSRF token:', error);
+        return of(undefined);
+      })
+    );
+  }
+
+  public getCSRFToken(): string | null {
+    return this.csrfToken;
+  }
+  public getSearchRequests(query: string): Observable<any> {
+    const params = new HttpParams().set('copyright',query);
+
+    return this.http.get(`${this.url + this.type.checkmark}/getCopyrights`, {
+      params
+    }).pipe(
+      map((data: any) => {
+        console.log('Data:', data);
+        return data;
+        
       }),
       catchError((error: any) => {
         console.error('Error getting search requests:', error);
