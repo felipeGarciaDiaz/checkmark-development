@@ -1,1 +1,13 @@
-<h1>TEST: {{data?.record_schema_type}}</h1>
+<div class="search-results-container">
+    <div *ngFor="let item of data" class="search-result-item">
+        <h2 class="result-title">{{ item.title_concatenated }}</h2>
+        <p class="result-snippet">{{ item.description_based_on_list }}</p>
+        <div class="result-meta">
+            <span class="meta-detail">Published: {{ item.first_published_date | date:'mediumDate' }}</span>
+            <span class="meta-detail">Registration Number: {{ item.registration_number }}</span>
+        </div>
+    </div>
+    <div *ngIf="data.length === 0" class="no-results">
+        <p>No results found for your query.</p>
+    </div>
+</div>
