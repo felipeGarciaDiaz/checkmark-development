@@ -29,6 +29,13 @@ import securityRoutes from './routes/security.routes';
 const app = express();
 const port = 3000;
 
+
+const corsOptions = {
+    origin: 'http://localhost:4200',
+    credentials: true, // Set to true only if your session or tokens require cookies
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
@@ -44,15 +51,14 @@ const logger = winston.createLogger({
 })
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
 app.use(compression());
 
-app.use(cors());
+
 app.use(helmet());
 app.use(hpp());
-app.use(csurf());
 
 
 const limits = rateLimit({
@@ -60,18 +66,19 @@ const limits = rateLimit({
     max: 25,
     message: 'Too many requests, try again later...'
 });
+const csrfProtection = csurf({ cookie: true });
 
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     logger.info(`${req.method} ${req.originalUrl}`);
     next();
 });
+app.use('/general', securityRoutes);
 
 app.use('/api', copyrightRoutes);
-app.use('/general', securityRoutes)
 const copyrightsController = new CopyrightsController();
 
-sequelize.sync({force: true}).then(() => {
+sequelize.sync({ force: true }).then(() => {
     copyrightsController.createTestData();
     app.listen(port, () => {
         console.log(`Server is running at http://localhost:${port}`);
