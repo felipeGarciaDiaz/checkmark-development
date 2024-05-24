@@ -1,0 +1,40 @@
+.search-results-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-result-item {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.result-title {
+    font-size: 20px;
+    color: blue;
+    cursor: pointer;
+}
+
+.result-title:hover {
+    text-decoration: underline;
+}
+
+.result-snippet {
+    color: #333;
+}
+
+.result-meta {
+    font-size: 14px;
+    color: #666;
+}
+
+.meta-detail {
+    margin-right: 10px;
+}
+
+.no-results {
+    text-align: center;
+    color: red;
+    font-size: 18px;
+}

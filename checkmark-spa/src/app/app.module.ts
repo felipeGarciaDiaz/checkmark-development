@@ -24,6 +24,7 @@ import { CsrfInterceptor } from './_interceptors/http';
   declarations: [
     AppComponent,
     HomeComponent,
+    ResultsComponent,
     ToastComponent,
   ],
   imports: [
