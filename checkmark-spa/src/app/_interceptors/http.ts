@@ -6,19 +6,21 @@ import { ApiService } from "../_services/api.service";
 @Injectable()
 
 export class CsrfInterceptor implements HttpInterceptor {
-    constructor (private api: ApiService) { }
+    constructor(private api: ApiService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        const csrfToken = this.api.getCSRFToken();
-        if (csrfToken) {
-            const cloner = req.clone({
-                headers: req.headers.set('X-CSRF-TOKEN', csrfToken)
-            });
-            console.log('CSRF Token successfully attached to request.')
-            return next.handle(cloner);
+        if (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE') {
+            const csrfToken = this.api.getCSRFToken();
+            if (csrfToken) {
+                const clonedReq = req.clone({
+                    withCredentials: true, // Important to send cookies with the request
+                    headers: req.headers.set('X-CSRF-TOKEN', csrfToken)
+                });
+                console.log('CSRF Token successfully attached to request.')
+                return next.handle(clonedReq);
+            }
+            console.log('No CSRF Token available.');
         }
-
-        // Add a return statement here
         return next.handle(req);
+
     }
 }

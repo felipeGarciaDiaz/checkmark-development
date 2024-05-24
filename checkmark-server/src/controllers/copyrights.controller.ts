@@ -7,7 +7,7 @@ export class CopyrightsController {
     constructor() { }
     // GET /api/getCopyrights copyright: string, publication_year: number, date_record_entered_on_file: string
     public getCopyrights(req: Request, res: Response): void {
-        const { copyright, publication_year, date_record_entered_on_file } = req.body;
+        const { copyright, publication_year, date_record_entered_on_file } = req.query;
         const query: any = {};
         if (copyright) {
             //

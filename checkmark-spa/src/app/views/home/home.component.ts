@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
   public search: FormGroup;
-  public toast: Toast & {isError?: boolean} = {
+  public toast: Toast & { isError?: boolean } = {
     status: 'success',
     message: 'Succesfully Indexed Dataset',
     time: 3500,
@@ -29,23 +29,28 @@ export class HomeComponent {
     if (this.search.valid) {
       console.log(this.search.value);
       const query = this.search.get('query')?.value;
-      this.api.getSearchRequests(query).subscribe({
-        next: (data: any) => {
-          this.router.navigate(['/search'], {queryParams: {
-            q: query
-          }})
-        },
-        error: (error: any) => {
-          console.log(error);
-          this.toast = {
-            status: 'warn',
-            message: 'Server error',
-            time: 3500,
-            isError: true,
-          }
-          this.resetToastMessageBox();
+      this.router.navigate(['/search'], {
+        queryParams: {
+          q: query
         }
-    })
+      })
+      //   this.api.getSearchRequests(query).subscribe({
+      //     next: (data: any) => {
+      //       this.router.navigate(['/search'], {queryParams: {
+      //         q: query
+      //       }})
+      //     },
+      //     error: (error: any) => {
+      //       console.log(error);
+      //       this.toast = {
+      //         status: 'warn',
+      //         message: 'Server error',
+      //         time: 3500,
+      //         isError: true,
+      //       }
+      //       this.resetToastMessageBox();
+      //     }
+      // })
     } else {
       this.toast = {
         status: 'fail',
@@ -75,6 +80,6 @@ export class HomeComponent {
   }
 
   public onCrossReference(): void {
-    
+
   }
 }
