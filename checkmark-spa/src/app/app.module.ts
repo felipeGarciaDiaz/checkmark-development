@@ -18,6 +18,7 @@ import { HomeComponent } from './views/home/home.component';
 import { ResultsComponent } from './views/results/results.component';
 import { ApiService } from './_services/api.service';
 import { CsrfInterceptor } from './_interceptors/http';
+import { VisualizedComponent } from './views/results/visualized/visualized.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { CsrfInterceptor } from './_interceptors/http';
     AppComponent,
     HomeComponent,
     ResultsComponent,
+    VisualizedComponent,
     ToastComponent,
   ],
   imports: [

@@ -45,3 +45,10 @@
 {"level":"info","message":"GET /api/getCopyrights?copyright=title"}
 {"level":"info","message":"GET /api/getCopyrights?copyright=title"}
 {"level":"info","message":"GET /api/getCopyrights?copyright=title"}
+{"level":"info","message":"GET /api/getCopyrights?copyright=tit"}
+{"level":"info","message":"GET /api/getCopyrights?copyright=tit"}
+{"level":"info","message":"GET /api/getCopyrights?copyright=title"}
+{"level":"info","message":"GET /api/getCopyrights?copyright=title"}
+{"level":"info","message":"GET /api/getCopyrights?copyright=title"}
+{"level":"info","message":"GET /api/getCopyrights?copyright=TITLE"}
+{"level":"info","message":"GET /api/getCopyrights?copyright=title"}
