@@ -17,15 +17,15 @@ export class CopyrightsRouter {
       res.status(201).json({ message: 'Create route' });
     });
 
-    this.router.get('/registrations', (req, res) => {
+    this.router.post('/addCopyright', (req, res) => {
       res.status(200).json({ message: 'Get all route' });
     });
 
-    this.router.get('/registrations/:id', (req, res) => {
+    this.router.put('/updateCopyright', (req, res) => {
       res.status(200).json({ message: 'Get single route' });
     });
     
-    this.router.delete('/registrations/:id', (req, res) => {
+    this.router.delete('/deleteCopyright', (req, res) => {
       res.status(204).json({ message: 'Delete route' });
     });
   }
