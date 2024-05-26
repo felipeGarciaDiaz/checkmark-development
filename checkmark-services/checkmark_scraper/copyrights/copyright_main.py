@@ -1,8 +1,10 @@
 import requests
 import json
-from scraper_copyright_utils.scrape_unique_keys import ExtractUniqueKeys
-from scraper_copyright_utils.scrape_shared_keys import FindSharedKeys
-from scraper_copyright_utils.scrape_hidden_keys import SearchHiddenCommonKeys
+from .scraper_copyright_utils.scrape_unique_keys import ExtractUniqueKeys
+from .scraper_copyright_utils.scrape_shared_keys import FindSharedKeys
+from .scraper_copyright_utils.scrape_hidden_keys import SearchHiddenCommonKeys
+
+
 
 def setup_url():
     start_date = '2024-01-30'
@@ -18,7 +20,8 @@ def fetch_data(url):
     print(f'Code: {response.status_code}')
     return json.loads(response.text)
 
-def main():
+
+def copyrights_scraper_main():
     url = setup_url()
     data = fetch_data(url)
     unique_keys_class = ExtractUniqueKeys(data)
@@ -34,14 +37,15 @@ def main():
     print("Number of hidden common keys:", count_hidden)
 
 if __name__ == "__main__":
-    main()
+    copyrights_scraper_main()
     
-# Reviewer Comments:
-# - Code is well structred, easy to read, and efficiently collects data from the site as needed.
-# - Code works quickly, it seems fairly modular, and each portion in the jupyter notebook was well documented as well.
+# Recommend Tips:
+# 1. Look into using sets() instread of arrays. i.e. loads = [] should change to loads = set()
+# 1.a Apparently it is more efficient, but look into it since you know more about python, if you
+# do use set() make sure to update any code that was part of arrays, to ensure that it now works with set()
 
-# Recomenndations:
-# - There was no error handling so I added some basic error handling to each of the functions.
-# - I went ahead and split the code into there own files, classes, and functions as this will grow a lot it will be easier to manage.
-# - I recommend using python sets instead of arrays i.e. loads = [] should instead be load = set(), then update code to work with sets.
-# - If parts of the code are repeated, consider creating a function to handle the repeated code.
+# 2. If you find yourself writig code thats similar to other code you wrote in this program, make that code
+# into its own function so you can quickly re-use it, this also makes the code more scaleable for the future.
+
+# 3. Finally just make sure to wrap important code that could fail in try except blocks, to keep the python
+# program from crashing or erroring out, especially when this moves into the production level environment now.
