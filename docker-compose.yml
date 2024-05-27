@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./checkmark-server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MARIA_DB_USER=${MARIA_DB_USER}
+      - MARIA_DB_PASS=${MARIA_DB_PASS}
+      - MARIA_DB_NAME=${MARIA_DB_NAME}
+      - MARIA_DB_HOST=mariadb
+      - MARIA_DB_PORT=${MARIA_DB_PORT}
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+    depends_on:
+      - mariadb
+      - redis
+      - rabbitmq
+
+  spa:
+    build:
+      context: ./checkmark-spa
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+
+  python-services:
+    build:
+      context: ./checkmark-services
+      dockerfile: Dockerfile
+    environment:
+      - MARIA_DB_USER=${MARIA_DB_USER}
+      - MARIA_DB_PASS=${MARIA_DB_PASS}
+      - MARIA_DB_NAME=${MARIA_DB_NAME}
+      - MARIA_DB_HOST=mariadb
+      - MARIA_DB_PORT=${MARIA_DB_PORT}
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - RABBITMQ_URL=${RABBITMQ_URL}
+    depends_on:
+      - mariadb
+      - redis
+      - rabbitmq
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MARIA_DB_NAME}
+      - MYSQL_USER=${MARIA_DB_USER}
+      - MYSQL_PASSWORD=${MARIA_DB_PASS}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  redis:
+    image: redis:latest
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  mariadb_data:
+  redis_data:

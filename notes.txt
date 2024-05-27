@@ -1,0 +1,33 @@
+RabbitMQ -- Potentially perfect usecase for our app.
+    - RabbitMQ allows python and nodejs to effectively have a clear line of communication with eachother.
+    this means that live data that python processes, i.e. user input like requesting new or missing items,
+    or requests to update the indexed items, or even the AI communication, can be handled in a much more,
+    streamlined, quick, and efficient manner.
+	
+	1. Async data flow, between python and nodejs
+	2. Streamlined and open communication system between both platforms for efficient micro-service design.
+    
+    - What this also means is that, a lot of the load that would have been created by relying on an api design,
+    built directly in python, can now be reduced, and lowered, by using this efficient communication platform,
+    architecutre, and design. This would heavily improve the performance of our application as well too.
+    
+    - Additonally what this also means is that, we would not need to rate-limit the single scrape requests,
+    that are coming from the user, as rabbitMQ is able to queue all of these to keep everything running just as,
+    efficiently and also as effectively as possible, allowing userse to even send large requests of data.
+
+
+
+Database Concurrency -- It could be possibe for the single scraper to add a new item, and for that data to then,
+also be queried by the user at the same time. In such cases it's important we manage concurency in correct and,
+efficient ways to prevent unexpected behavior from our applications and services here as well too.
+
+Database Optimization -- Optimize database by writing efficient sql queries, and by partitioning the tables into,
+smaller more manageable tables, lets even look into sharding the db as well too.
+
+Caching -- Implement caching with redis for improvements in speed and efficiency.
+
+Graceful Degredation -- Add service workers to keep app runing in places with litle to even no internet access too.
+
+Database Updates -- When I get the proper schema for the copyrights at least, I'll make sure to break down that
+table into more manageable and efficient bits for processing, additionally server-side, I'll only call the rows
+that I need to ensure it is more efficient that way as well.
