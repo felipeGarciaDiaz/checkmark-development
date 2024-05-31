@@ -57,3 +57,5 @@
 {"level":"info","message":"GET /api/getCopyrights?copyright=title"}
 {"level":"info","message":"GET /"}
 {"level":"info","message":"GET /robots.txt"}
+{"level":"info","message":"GET /api/getCopyrights?copyright=tit"}
+{"level":"info","message":"GET /api/getCopyrights?copyright=tit"}

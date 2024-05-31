@@ -4,7 +4,7 @@ services:
   server:
     build:
       context: ./checkmark-server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     environment:
@@ -20,18 +20,25 @@ services:
       - mariadb
       - redis
       - rabbitmq
+    volumes:
+      - ./checkmark-server:/usr/src/app
+      - /usr/src/app/node_modules
 
   spa:
     build:
       context: ./checkmark-spa
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
-      - "4200:80"
+      - "4200:4200"
+    volumes:
+      - ./checkmark-spa:/usr/src/app
+      - /usr/src/app/node_modules
+    command: ["ng", "serve", "--host", "0.0.0.0", "--poll", "2000"]
 
   python-services:
     build:
       context: ./checkmark-services
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     environment:
       - MARIA_DB_USER=${MARIA_DB_USER}
       - MARIA_DB_PASS=${MARIA_DB_PASS}
@@ -45,6 +52,9 @@ services:
       - mariadb
       - redis
       - rabbitmq
+    volumes:
+      - ./checkmark-services:/usr/src/app
+      - /usr/src/app/venv
 
   mariadb:
     image: mariadb:latest
@@ -54,7 +64,7 @@ services:
       - MYSQL_USER=${MARIA_DB_USER}
       - MYSQL_PASSWORD=${MARIA_DB_PASS}
     ports:
-      - "3306:3306"
+      - "3309:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
 
@@ -66,7 +76,7 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-
+      
   rabbitmq:
     image: rabbitmq:3-management
     environment:
