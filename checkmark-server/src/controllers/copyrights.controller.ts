@@ -6,11 +6,10 @@ import { Op, Sequelize } from "sequelize";
 export class CopyrightsController {
     constructor() { }
     // GET /api/getCopyrights copyright: string, publication_year: number, date_record_entered_on_file: string
-    public getCopyrights(req: Request, res: Response): void {
+ public getCopyrights(req: Request, res: Response): void {
         const { copyright, publication_year, date_record_entered_on_file } = req.query;
         const query: any = {};
         if (copyright) {
-            //
             query[Op.and] = [
                 Sequelize.where(
                     Sequelize.fn('LOWER', Sequelize.col('title_concatenated')),
@@ -21,7 +20,7 @@ export class CopyrightsController {
         if (date_record_entered_on_file) query.date_record_entered_on_file = date_record_entered_on_file;
 
         if (!copyright) {
-            res.status(400).json({ message: 'Copyright Name Required' });
+            res.status(400).json({ isSuccessful: false, message: 'Copyright Name Required' });
             return;
         }
         console.log("Query object:", JSON.stringify(query, null, 2)); // Log query object for debugging
@@ -30,18 +29,17 @@ export class CopyrightsController {
             .pipe(
                 map((data: Copyright[] | null) => {
                     if (!data || data.length === 0) {
-                        res.status(404).json({ message: 'No records found' });
+                        res.status(404).json({ isSuccessful: false, message: 'No records found' });
                     } else {
-                        res.json(data);
+                        res.json({ isSuccessful: true, data });
                     }
                 }),
                 catchError(error => {
-                    res.status(500).json({ message: 'Server error', error });
+                    res.status(500).json({ isSuccessful: false, message: 'Server error', error });
                     return of(undefined);
                 })
             )
             .subscribe();
-
     }
     // Temporary database value input for development testing, calculating, and reviewing.
     public async createTestData(): Promise<any> {

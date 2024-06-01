@@ -19,7 +19,8 @@ import morgan from 'morgan';
 import winston from 'winston';
 
 import sequelize from './config/sequelize';
-import User from './models/Copyrights';
+import Copyright from './models/Copyrights';
+import Trademark from './models/Trademarks';
 import copyrightRoutes from './routes/copyrights.routes';
 import { CopyrightsController } from './controllers/copyrights.controller';
 import { Request, Response } from 'express';

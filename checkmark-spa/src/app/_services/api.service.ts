@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ICopyrightMain, ICopyrightResponse } from '../_models/copyrights';
 @Injectable({
   providedIn: 'root'
 })
@@ -48,6 +49,10 @@ export class ApiService {
       }),
       catchError((error: any) => {
         console.error('Error getting search requests:', error);
+        const reqError = {
+          isSuccesful: false,
+          message: 'Error getting search requests'
+        }
         return of(undefined);
       })
     );

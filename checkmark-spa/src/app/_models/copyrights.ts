@@ -36,3 +36,8 @@ export interface ICopyrightMain {
     date_record_entered_on_file: string;
     type_of_work: string;
   }
+export interface ICopyrightResponse {
+    isSuccessful: boolean;
+    data: ICopyrightMain[];
+    message: string;
+}

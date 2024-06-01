@@ -7,9 +7,9 @@
             <span class="meta-detail">Registration Number: {{ item.registration_number }}</span>
         </div>
     </div>
-    <div *ngIf="data.length === 0" class="no-results">
-        <p>No results found for your query.</p>
+    <div *ngIf="!raw.isSuccessful" class="no-results">
+        <p>{{raw.message}}</p>
     </div>
-</div>`
+</div>
 
 <app-visualized [resTotal]="0" [resDuration]="0" [resRemaining]="0"></app-visualized>
