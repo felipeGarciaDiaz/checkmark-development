@@ -1,0 +1,178 @@
+/* You can add global styles to this file, and also import other style files */
+// @import "materialize-css/sass/materialize"; // Remove if not using Materialize
+
+// Color palette: E62727 (red), F3F2EC (off-white), DCDCDC (gray), 1E93AB (blue)
+@import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;600;700&display=swap");
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    background-color: #e62727;
+    color: #fff;
+    font-size: 18px;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Rowdies", cursive;
+    color: #e62727;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+h1 {
+    font-size: 2.8rem;
+    color: #1e93ab;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+p,
+label,
+input,
+button,
+span,
+li,
+a {
+    font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+a {
+    color: #1e93ab;
+    text-decoration: none;
+    transition: color 0.2s;
+    &:hover {
+        color: #e62727;
+        text-decoration: underline;
+    }
+}
+
+button,
+.btn,
+.primary-btn,
+.secondary-btn {
+    font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7em 2em;
+    cursor: pointer;
+    transition:
+        background 0.2s,
+        color 0.2s,
+        box-shadow 0.2s;
+    box-shadow: 0 2px 8px 0 rgba(229, 39, 39, 0.08);
+    outline: none;
+    margin: 0.2em 0;
+    display: inline-block;
+}
+
+button,
+.btn,
+.primary-btn {
+    background: #e62727;
+    color: #fff;
+}
+
+button:hover,
+.btn:hover,
+.primary-btn:hover {
+    background: #b71c1c;
+    color: #fff;
+}
+
+.secondary-btn {
+    background: #fff;
+    color: #e62727;
+    border: 2px solid #e62727;
+}
+
+.secondary-btn:hover {
+    background: #f3f2ec;
+    color: #b71c1c;
+    border-color: #b71c1c;
+}
+
+input,
+textarea,
+select {
+    font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    font-size: 1rem;
+    border: 2px solid #dcdcdc;
+    border-radius: 8px;
+    padding: 0.7em 1em;
+    background: #fff;
+    color: #222;
+    transition: border 0.2s;
+    margin-bottom: 0.5em;
+    outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border: 2px solid #1e93ab;
+}
+
+::-webkit-input-placeholder {
+    color: #aaa;
+}
+::-moz-placeholder {
+    color: #aaa;
+}
+:-ms-input-placeholder {
+    color: #aaa;
+}
+::placeholder {
+    color: #aaa;
+}
+
+ul,
+ol {
+    padding-left: 1.5em;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+    h2 {
+        font-size: 1.3rem;
+    }
+    h3 {
+        font-size: 1.1rem;
+    }
+    button,
+    .btn,
+    .primary-btn,
+    .secondary-btn {
+        font-size: 0.95rem;
+        padding: 0.6em 1.2em;
+    }
+    input,
+    textarea,
+    select {
+        font-size: 0.95rem;
+        padding: 0.5em 0.7em;
+    }
+}

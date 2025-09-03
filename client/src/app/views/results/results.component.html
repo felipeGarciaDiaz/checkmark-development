@@ -1,0 +1,6 @@
+<!-- client/src/app/components/result/result.component.html -->
+<div class="result-container">
+  <h1>{{ pass ? "🎉 You Passed!" : "😢 You Failed" }}</h1>
+  <p>Score: {{ score }} / {{ total }} ({{ percentage }}%)</p>
+  <button class="restart-btn" (click)="restart()">Restart</button>
+</div>

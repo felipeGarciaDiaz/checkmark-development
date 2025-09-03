@@ -1,0 +1,26 @@
+<!-- client/src/app/components/quiz/quiz.component.html -->
+<div *ngIf="config() as cfg" class="quiz-container">
+  <div *ngIf="!finished(); else done">
+    <div class="progress">Question {{ current() + 1 }} / {{ cfg.questions.length }}</div>
+    <div [@fadeSlide]>
+      <h2 class="prompt">{{ cfg.questions[current()].prompt }}</h2>
+      <img *ngIf="cfg.questions[current()].image" [src]="cfg.questions[current()].image" class="q-image" />
+      <div class="answers">
+        <button
+          *ngFor="let ans of (cfg.questions[current()].answers | keyvalue)"
+          class="answer-btn"
+          [ngClass]="{
+            correct: selected() === ans.key && ans.key === cfg.questions[current()].correct,
+            wrong: selected() === ans.key && ans.key !== cfg.questions[current()].correct
+          }"
+          (click)="choose(ans.key)"
+        >
+          {{ ans.key }}: {{ ans.value }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <ng-template #done>
+    <p>Loading results...</p>
+  </ng-template>
+</div>

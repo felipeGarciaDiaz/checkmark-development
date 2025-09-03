@@ -1,0 +1,37 @@
+{
+  "title": "Modern Kahootz Clone",
+  "theme": {
+    "backgroundImage": "https://picsum.photos/1600/900",
+    "primaryColor": "#673AB7",
+    "secondaryColor": "#FF4081",
+    "textColor": "#FFFFFF",
+    "buttonColor": "#03A9F4",
+    "hoverColor": "#FFC107",
+    "fontFamily": "'Poppins', sans-serif",
+    "fontSize": "18px"
+  },
+  "settings": {
+    "showImmediateFeedback": true,
+    "transitionTime": 600,
+    "passPercentage": 60
+  },
+  "questions": [
+    {
+      "prompt": "Which language runs in a web browser?",
+      "image": null,
+      "answers": { "A": "Java", "B": "C", "C": "Python", "D": "JavaScript" },
+      "correct": "D"
+    },
+    {
+      "prompt": "What does CSS stand for?",
+      "image": null,
+      "answers": {
+        "A": "Central Style Sheets",
+        "B": "Cascading Style Sheets",
+        "C": "Cascading Simple Sheets",
+        "D": "Cars SUVs Sailboats"
+      },
+      "correct": "B"
+    }
+  ]
+}
