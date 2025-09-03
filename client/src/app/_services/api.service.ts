@@ -34,11 +34,11 @@ export class ApiService {
   public getCSRFToken(): string | null {
     return this.csrfToken;
   }
-  
+
   public getSearchRequests(query: string): Observable<any> {
 
     const params = new HttpParams().set('copyright', query);
-  
+
     return this.http.get(`${this.url + this.type.checkmark}/getCopyrights`, {
       params: params
     }).pipe(

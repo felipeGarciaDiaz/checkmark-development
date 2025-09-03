@@ -8,7 +8,7 @@ import { ApiService } from "../_services/api.service";
 export class CsrfInterceptor implements HttpInterceptor {
     constructor(private api: ApiService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE') {
+        if (req.method === 'DELETE' || req.method === 'PUT' || req.method === 'DELETE') {
             const csrfToken = this.api.getCSRFToken();
             if (csrfToken) {
                 const clonedReq = req.clone({

@@ -12,11 +12,11 @@ import { trigger, transition, style, animate } from '@angular/animations';
   animations: [
     trigger('fadeSlide', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(20px)' }),
-        animate('400ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+        style({ opacity: 0, transform: 'translateY(40px) scale(0.95)' }),
+        animate('500ms cubic-bezier(.68,-0.55,.27,1.55)', style({ opacity: 1, transform: 'translateY(0) scale(1)' }))
       ]),
       transition(':leave', [
-        animate('400ms ease-in', style({ opacity: 0, transform: 'translateY(-20px)' }))
+        animate('400ms cubic-bezier(.68,-0.55,.27,1.55)', style({ opacity: 0, transform: 'translateY(-40px) scale(0.95)' }))
       ])
     ])
   ]
@@ -32,6 +32,9 @@ export class QuizComponent {
   wrong = signal(0);
   finished = signal(false);
 
+  showFeedback = false;
+  lastCorrect = false;
+
   async ngOnInit() {
     const cfg = await this.configSvc.load();
     this.config.set(cfg);
@@ -42,11 +45,18 @@ export class QuizComponent {
     this.selected.set(label);
     const cfg = this.config()!;
     const q = cfg.questions[this.current()];
+    this.lastCorrect = label === q.correct;
+    this.showFeedback = true;
+
     if (cfg.settings.showImmediateFeedback) {
-      if (label === q.correct) this.score.set(this.score() + 1);
+      if (this.lastCorrect) this.score.set(this.score() + 1);
       else this.wrong.set(this.wrong() + 1);
     }
-    setTimeout(() => this.next(), cfg.settings.transitionTime);
+
+    setTimeout(() => {
+      this.showFeedback = false;
+      this.next();
+    }, 1100); // Show feedback for 1.1s before next question
   }
 
   next() {

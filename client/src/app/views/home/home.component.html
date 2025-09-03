@@ -1,27 +1,76 @@
 <div class="home-container">
 
-<section class="quiz-section create-quiz">
-	<div class="section-content">
-		<h2>Create a Quiz</h2>
-		<p>Design your own fully customizable quiz. Add questions, set answers, and personalize your quiz experience.</p>
-		<button class="primary-btn">Create Quiz</button>
-	</div>
-	<div class="section-image">
-		<img src="assets/create-quiz.svg" alt="Create Quiz Illustration" />
-	</div>
-</section>
+  <section class="quiz-section create-quiz">
+    <div class="section-content">
+      <h2>Create a Quiz</h2>
+      <p>Design your own fully customizable quiz. Add questions, set answers, and personalize your quiz experience.</p>
+      <input type="file" accept="application/json" (change)="onConfigFile($event)" id="configFile" hidden />
+      <button class="primary-btn" (click)="triggerFileInput()">Create Quiz</button>
+      <button class="secondary-btn" (click)="importDefaultConfig()">Create with Default Config</button>
 
-<section class="quiz-section join-quiz">
-	<div class="section-content">
-		<h2>Join a Quiz</h2>
-		<p>Have a quiz code? Enter it below to join an existing quiz and compete with friends in real-time.</p>
-		<form class="join-form">
-			<input type="text" placeholder="Enter Quiz Code" class="quiz-code-input" />
-			<button type="submit" class="secondary-btn">Join Quiz</button>
-		</form>
-	</div>
-	<div class="section-image">
-		<img src="assets/join-quiz.svg" alt="Join Quiz Illustration" />
-	</div>
-</section>
-</div>
+      <!-- Show after game creation -->
+      <div *ngIf="lastGameId && lastGameCode" class="game-info" style="margin-top:2rem;">
+        <h3>Game Created!</h3>
+        <p>
+          <strong>Game Code:</strong> <span style="font-family:monospace">{{ lastGameCode }}</span><br>
+          <strong>Game ID:</strong> <span style="font-family:monospace">{{ lastGameId }}</span>
+        </p>
+        <p>Share the <b>Game Code</b> with friends so they can join!</p>
+      </div>
+
+      <!-- Reactive Quiz Config Form -->
+      <form [formGroup]="quizForm" class="config-form" (ngSubmit)="submitQuizForm()" style="margin-top:2rem;" *ngIf="quizForm">
+        <h3>Edit Quiz Config</h3>
+        <div>
+          <label>Quiz Title:</label>
+          <input type="text" formControlName="title" required />
+        </div>
+        <div formGroupName="settings">
+          <label>Show Immediate Feedback:</label>
+          <input type="checkbox" formControlName="showImmediateFeedback" />
+          <label>Transition Time (ms):</label>
+          <input type="number" formControlName="transitionTime" min="100" />
+          <label>Pass Percentage:</label>
+          <input type="number" formControlName="passPercentage" min="0" max="100" />
+        </div>
+        <div formArrayName="questions">
+          <div *ngFor="let q of questions.controls; let i = index" [formGroupName]="i" style="margin-bottom:1.5rem;">
+            <h4>Question {{i+1}}</h4>
+            <input type="text" formControlName="prompt" placeholder="Question Text" required />
+            <input type="text" formControlName="image" placeholder="Image URL (optional)" />
+            <div formGroupName="answers" style="margin-bottom:0.5rem;">
+              <input type="text" formControlName="A" placeholder="Option A" required />
+              <input type="text" formControlName="B" placeholder="Option B" required />
+              <input type="text" formControlName="C" placeholder="Option C" required />
+              <input type="text" formControlName="D" placeholder="Option D" required />
+            </div>
+            <label>Correct Option (A/B/C/D):</label>
+            <input type="text" formControlName="correct" maxlength="1" required />
+            <button type="button" (click)="removeQuestion(i)">Remove</button>
+          </div>
+        </div>
+        <button type="button" (click)="addQuestion()">Add Question</button>
+        <button type="submit" class="primary-btn" [disabled]="quizForm.invalid">Create Quiz from Form</button>
+      </form>
+      <!-- End Reactive Config Form -->
+    </div>
+    <div class="section-image">
+      <img src="assets/create-quiz.svg" alt="Create Quiz Illustration" />
+    </div>
+  </section>
+
+  <section class="quiz-section join-quiz">
+    <div class="section-content">
+      <h2>Join a Quiz</h2>
+      <p>Have a quiz code? Enter it below to join an existing quiz and compete with friends in real-time.</p>
+      <form class="join-form" (ngSubmit)="onJoinQuiz()">
+        <input type="text" placeholder="Enter Room Code" class="quiz-code-input" [(ngModel)]="joinCode" name="joinCode" required />
+        <button type="submit" class="secondary-btn">Join Quiz</button>
+      </form>
+
+
+
+
+
+
+</div>  </section>    </div>      

@@ -34,19 +34,10 @@ import { QuizComponent } from './views/quiz/quiz.component';
     FormsModule,
     AppRoutingModule,
     RouterModule,
-    FormsModule,
     ReactiveFormsModule,
 
   ],
-  providers: [
-    ApiService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: CsrfInterceptor,
-      multi: true
-    },
-    provideAnimationsAsync()
-  ],
+
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
