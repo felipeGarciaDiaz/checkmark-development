@@ -34,6 +34,10 @@ export class HomeComponent implements OnInit {
     this.buildForm(config);
   }
 
+  async importDefaultConfig() {
+    await this.loadDefaultConfig();
+  }
+
   buildForm(config: any) {
     this.quizForm = this.fb.group({
       title: [config.title || '', Validators.required],
@@ -125,5 +129,13 @@ export class HomeComponent implements OnInit {
       }
     };
     reader.readAsText(file);
+  }
+
+  async onJoinQuizWithActiveConfig() {
+    if (!this.joinCode) {
+      alert('Please enter a room code.');
+      return;
+    }
+    this.router.navigate(['/quiz'], { queryParams: { code: this.joinCode } });
   }
 }
