@@ -14,13 +14,19 @@ export class HomeComponent implements OnInit {
   private http = inject(HttpClient);
   private fb = inject(FormBuilder);
 
+  public joinCode: string = '';
   quizForm!: FormGroup;
   lastGameId: string | null = null;
   lastGameCode: string | null = null;
 
   ngOnInit() {
-    // Optionally, load default config on init
-    // this.loadDefaultConfig();
+    // Always initialize with an empty config so the form appears
+    this.buildForm({
+      title: '',
+      theme: {},
+      settings: {},
+      questions: []
+    });
   }
 
   async loadDefaultConfig() {
@@ -30,7 +36,7 @@ export class HomeComponent implements OnInit {
 
   buildForm(config: any) {
     this.quizForm = this.fb.group({
-      title: [config.title, Validators.required],
+      title: [config.title || '', Validators.required],
       theme: this.fb.group({
         backgroundImage: [config.theme?.backgroundImage || ''],
         primaryColor: [config.theme?.primaryColor || ''],
@@ -50,7 +56,7 @@ export class HomeComponent implements OnInit {
         (config.questions || []).map((q: any) =>
           this.fb.group({
             prompt: [q.prompt, Validators.required],
-            image: [q.image],
+            image: [q.image || ''],
             answers: this.fb.group({
               A: [q.answers?.A || '', Validators.required],
               B: [q.answers?.B || '', Validators.required],
@@ -64,8 +70,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  get questions() {
-    return this.quizForm.get('questions') as FormArray;
+  get questions(): FormArray {
+    return this.quizForm?.get('questions') as FormArray;
   }
 
   addQuestion() {
