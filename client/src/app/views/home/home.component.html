@@ -53,24 +53,20 @@
         <button type="submit" class="primary-btn" [disabled]="quizForm.invalid">Create Quiz from Form</button>
       </form>
       <!-- End Reactive Config Form -->
+
+      <!-- Join Quiz Form: now always visible below the config form -->
+      <div style="margin-top:2.5rem;">
+        <h2>Join a Quiz</h2>
+        <p>Have a quiz code? Enter it below to join an existing quiz and compete with friends in real-time.</p>
+        <form class="join-form" (ngSubmit)="onJoinQuizWithActiveConfig()">
+          <input type="text" placeholder="Enter Room Code" class="quiz-code-input" [(ngModel)]="joinCode" name="joinCode" required />
+          <button type="submit" class="secondary-btn">Join Quiz</button>
+        </form>
+      </div>
     </div>
     <div class="section-image">
       <img src="assets/create-quiz.svg" alt="Create Quiz Illustration" />
     </div>
   </section>
-
-  <section class="quiz-section join-quiz">
-    <div class="section-content">
-      <h2>Join a Quiz</h2>
-      <p>Have a quiz code? Enter it below to join an existing quiz and compete with friends in real-time.</p>
-      <form class="join-form" (ngSubmit)="onJoinQuiz()">
-        <input type="text" placeholder="Enter Room Code" class="quiz-code-input" [(ngModel)]="joinCode" name="joinCode" required />
-        <button type="submit" class="secondary-btn">Join Quiz</button>
-      </form>
-
-
-
-
-
-
-</div>  </section>    </div>      
+</div>
+<h1>hello</h1>
