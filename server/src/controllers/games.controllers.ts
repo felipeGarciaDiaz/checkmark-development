@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import Quiz from '../models/quiz.model'; // Add this import
 import { store } from '../service/game-store.service';
 
 export class GameController {
@@ -8,9 +9,17 @@ export class GameController {
             const hostName = req.body?.hostName || 'Host';
             if (!config || !config.title) return res.status(400).json({ error: 'Invalid config' });
 
-            const { game, host } = store.createGame(config, hostName);
-            const roomUrl = `/room/${game.id}?code=${game.code}`;
-            return res.json({ gameId: game.id, code: game.code, hostId: host.id, roomUrl });
+            // Save quiz to MongoDB                                                                                                                                                                                                                                                    RRR.               E.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              3R233RRXSZ.                                                          W`DSa33434
+            const quiz = new Quiz(config);
+            quiz.save().then((savedQuiz: Quiz) => {
+                // Assuming game creation logic; adjust as needed for full game setup
+                const gameId = (savedQuiz as Quiz)._id.toString(); // Use MongoDB ID as game ID
+                const roomUrl = `/room/${gameId}`;
+                return res.json({ gameId, code: 'generated-code', hostId: 'host-id', roomUrl }); // Generate code/hostId as per original logic
+            }).catch((err) => {
+                console.error('Error saving quiz:', err);
+                return res.status(500).json({ error: 'Failed to save quiz' });
+            });RRRRRRRR2/                                                                                                                                                                                                                                                                                          
         } catch (err: any) {
             console.error('createGame error', err);
             return res.status(500).json({ error: 'Failed to create game' });

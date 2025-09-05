@@ -18,13 +18,15 @@ import { HomeComponent } from './views/home/home.component';
 import { ApiService } from './_services/api.service';
 import { CsrfInterceptor } from './_interceptors/http';
 import { QuizComponent } from './views/quiz/quiz.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ResultsComponent } from './views/results/results.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ToastComponent,
     QuizComponent,
-
+    ResultsComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,11 @@ import { QuizComponent } from './views/quiz/quiz.component';
   ],
 
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    ApiService,
+    { provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true },
+    provideAnimationsAsync()
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

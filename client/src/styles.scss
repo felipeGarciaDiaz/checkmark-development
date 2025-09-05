@@ -1,178 +1,422 @@
-/* You can add global styles to this file, and also import other style files */
-// @import "materialize-css/sass/materialize"; // Remove if not using Materialize
-
-// Color palette: E62727 (red), F3F2EC (off-white), DCDCDC (gray), 1E93AB (blue)
-@import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&family=Inter:wght@400;600;700&display=swap");
-
-html,
+/* Global Styles */
 body {
-    height: 100%;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
 }
 
-body {
-    margin: 0;
-    font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
-    background-color: #e62727;
-    color: #fff;
-    font-size: 18px;
-    line-height: 1.6;
-    letter-spacing: 0.01em;
+/* Global Button Styles */
+button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, #1e93ab, #7ad6df);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(90deg, #166d85, #5fb8c9);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: "Rowdies", cursive;
-    color: #e62727;
-    margin-top: 0;
-    margin-bottom: 0.5em;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-}
-
-h1 {
-    font-size: 2.8rem;
-    color: #1e93ab;
-}
-
-h2 {
-    font-size: 2rem;
-}
-
-h3 {
-    font-size: 1.5rem;
-}
-
-p,
-label,
-input,
-button,
-span,
-li,
-a {
-    font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
-}
-
-a {
-    color: #1e93ab;
-    text-decoration: none;
-    transition: color 0.2s;
-    &:hover {
-        color: #e62727;
-        text-decoration: underline;
-    }
-}
-
-button,
-.btn,
-.primary-btn,
-.secondary-btn {
-    font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    padding: 0.7em 2em;
-    cursor: pointer;
-    transition:
-        background 0.2s,
-        color 0.2s,
-        box-shadow 0.2s;
-    box-shadow: 0 2px 8px 0 rgba(229, 39, 39, 0.08);
-    outline: none;
-    margin: 0.2em 0;
-    display: inline-block;
-}
-
-button,
-.btn,
-.primary-btn {
-    background: #e62727;
-    color: #fff;
-}
-
-button:hover,
-.btn:hover,
-.primary-btn:hover {
-    background: #b71c1c;
-    color: #fff;
-}
-
-.secondary-btn {
-    background: #fff;
-    color: #e62727;
-    border: 2px solid #e62727;
-}
-
-.secondary-btn:hover {
-    background: #f3f2ec;
-    color: #b71c1c;
-    border-color: #b71c1c;
-}
-
+/* Global Input Styles */
 input,
 textarea,
 select {
-    font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
-    font-size: 1rem;
-    border: 2px solid #dcdcdc;
-    border-radius: 8px;
-    padding: 0.7em 1em;
-    background: #fff;
-    color: #222;
-    transition: border 0.2s;
-    margin-bottom: 0.5em;
-    outline: none;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: #333;
+  background: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+  position: relative;
+
+  &:focus {
+    border-color: #1e93ab;
+    box-shadow: 0 0 0 4px rgba(30, 147, 171, 0.2);
+    background: #ffffff;
+  }
+
+  &:disabled {
+    background: #f5f5f5;
+    border-color: #ccc;
+    cursor: not-allowed;
+  }
 }
 
-input:focus,
-textarea:focus,
-select:focus {
+/* Label Styles */
+label {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 1rem;
+
+  input,
+  textarea,
+  select {
+    margin-top: 0.25rem;
+  }
+}
+
+/* Ice Wave Animation for Inputs */
+input.loading {
+  background: linear-gradient(90deg, #e0f7fa, #ffffff, #e0f7fa);
+  background-size: 200% 100%;
+  animation: iceWave 1.5s infinite;
+}
+
+@keyframes iceWave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Bubble Effect on Focus */
+input:focus::after,
+textarea:focus::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 4px;
+  background: #1e93ab;
+  border-radius: 4px;
+  transition:
+    width 0.3s ease,
+    left 0.3s ease;
+}
+
+input:focus::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  label {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  button {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.7rem;
+  }
+
+  label {
+    font-size: 0.8rem;
+  }
+}
+
+/* Compact Color Picker Component */
+.color-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(30, 147, 171, 0.08);
+  transition: box-shadow 0.3s;
+  width: fit-content;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(30, 147, 171, 0.15);
+  }
+
+  &__label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1e93ab;
+    margin-right: 0.5rem;
+    letter-spacing: 0.02em;
+    user-select: none;
+    transition: color 0.3s;
+  }
+
+  &__input {
+    appearance: none;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(30, 147, 171, 0.12);
+    cursor: pointer;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+
+    &:hover,
+    &:focus {
+      transform: scale(1.1);
+      box-shadow: 0 4px 16px rgba(30, 147, 171, 0.18);
+      outline: none;
+    }
+
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+      border-radius: 50%;
+    }
+    &::-webkit-color-swatch {
+      border-radius: 50%;
+      border: none;
+    }
+    &::-moz-color-swatch {
+      border-radius: 50%;
+      border: none;
+    }
+  }
+
+  &__preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     border: 2px solid #1e93ab;
+    box-shadow: 0 1px 4px rgba(30, 147, 171, 0.1);
+    background: var(--selected-color, #fff);
+    transition:
+      background 0.3s,
+      border-color 0.3s;
+    margin-left: 0.5rem;
+  }
 }
 
-::-webkit-input-placeholder {
-    color: #aaa;
+/* Color Picker Animation */
+@keyframes pickerPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
-::-moz-placeholder {
-    color: #aaa;
-}
-:-ms-input-placeholder {
-    color: #aaa;
-}
-::placeholder {
-    color: #aaa;
+.title__input {
+  input {
+    font-size: 2rem;
+    font-weight: 700;
+    padding: 1.2rem 1rem;
+    background: #f7fbfc;
+    border: 2px solid #1e93ab;
+    border-radius: 12px;
+    color: #1e93ab;
+    text-align: center;
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 12px rgba(30, 147, 171, 0.08);
+    transition:
+      border-color 0.3s,
+      box-shadow 0.3s,
+      background 0.4s;
+
+    &::placeholder {
+      color: #b3c9d1;
+      font-weight: 500;
+      font-style: italic;
+      opacity: 0.7;
+    }
+
+    &:focus {
+      background: #e6f7ff;
+      border-color: #166d85;
+      box-shadow: 0 4px 20px rgba(30, 147, 171, 0.15);
+      animation: inputWave 0.7s;
+    }
+
+    &.submitted {
+      background: linear-gradient(90deg, #e0f7fa 0%, #ffffff 100%);
+      animation: inputFlood 1s;
+    }
+  }
 }
 
-ul,
-ol {
-    padding-left: 1.5em;
+@keyframes inputWave {
+  0% { box-shadow: 0 0 0 0 rgba(30,147,171,0.15); }
+  60% { box-shadow: 0 0 0 8px rgba(30,147,171,0.10); }
+  100% { box-shadow: 0 4px 20px rgba(30,147,171,0.15); }
 }
 
-@media (max-width: 600px) {
-    h1 {
-        font-size: 2rem;
+@keyframes inputFlood {
+  0% { background: #e6f7ff; }
+  50% { background: #b2ebf2; }
+  100% { background: linear-gradient(90deg, #e0f7fa 0%, #ffffff 100%); }
+}
+
+.desc__input {
+  textarea {
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 1rem 0.8rem;
+    background: #f7fbfc;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    color: #333;
+    min-height: 90px;
+    box-shadow: 0 2px 12px rgba(30, 147, 171, 0.06);
+    resize: vertical;
+    transition:
+      border-color 0.3s,
+      box-shadow 0.3s,
+      background 0.4s;
+
+    &::placeholder {
+      color: #b3c9d1;
+      font-weight: 500;
+      font-style: italic;
+      opacity: 0.7;
     }
-    h2 {
-        font-size: 1.3rem;
+
+    &:focus {
+      background: #e6f7ff;
+      border-color: #1e93ab;
+      box-shadow: 0 4px 20px rgba(30, 147, 171, 0.12);
+      animation: inputWave 0.7s;
+      outline: none;
     }
-    h3 {
-        font-size: 1.1rem;
+
+    &.submitted {
+      background: linear-gradient(90deg, #e0f7fa 0%, #ffffff 100%);
+      animation: inputFlood 1s;
     }
-    button,
-    .btn,
-    .primary-btn,
-    .secondary-btn {
-        font-size: 0.95rem;
-        padding: 0.6em 1.2em;
-    }
-    input,
-    textarea,
-    select {
-        font-size: 0.95rem;
-        padding: 0.5em 0.7em;
-    }
+  }
+}
+
+/* Responsive adjustments for title and description input */
+@media (max-width: 768px) {
+  .title__input input {
+    font-size: 1.3rem;
+    padding: 0.8rem 0.7rem;
+    border-radius: 9px;
+  }
+  .desc__input textarea {
+    font-size: 0.98rem;
+    padding: 0.7rem 0.6rem;
+    min-height: 60px;
+    border-radius: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title__input input {
+    font-size: 1rem;
+    padding: 0.6rem 0.5rem;
+    border-radius: 7px;
+  }
+  .desc__input textarea {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.4rem;
+    min-height: 40px;
+    border-radius: 7px;
+  }
+}
+
+/* Color swatch animations */
+.color-swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  background: linear-gradient(45deg, #fff, #f0f0f0);
+
+  &:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(30, 147, 171, 0.6);
+  }
+
+  &:focus {
+    animation: ripple 0.6s ease-out;
+  }
+
+  input[type="color"] {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(30, 147, 171, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(30, 147, 171, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(30, 147, 171, 0);
+  }
 }

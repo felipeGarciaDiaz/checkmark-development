@@ -1,141 +1,130 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { firstValueFrom } from 'rxjs';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl, Form } from '@angular/forms';
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
+import { ApiService } from '../../_services/api.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  animations: [
+    trigger('fadeSlideIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('500ms cubic-bezier(.2,.9,.25,1)', style({ opacity: 1, transform: 'none' }))
+      ])
+    ]),
+    trigger('hoverEffect', [
+      transition(':enter', [
+        style({ transform: 'scale(1)', boxShadow: 'none' }),
+        animate('200ms ease-in', style({ transform: 'scale(1.02)', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)' }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-out', style({ transform: 'scale(1)', boxShadow: 'none' }))
+      ])
+    ])
+  ]
 })
 export class HomeComponent implements OnInit {
-  private router = inject(Router);
-  private http = inject(HttpClient);
-  private fb = inject(FormBuilder);
 
-  public joinCode: string = '';
+  constructor(public fb: FormBuilder, public api: ApiService) {};
   quizForm!: FormGroup;
-  lastGameId: string | null = null;
-  lastGameCode: string | null = null;
 
   ngOnInit() {
-    // Always initialize with an empty config so the form appears
-    this.buildForm({
-      title: '',
-      theme: {},
-      settings: {},
-      questions: []
-    });
+    this.buildForm();
   }
 
-  async loadDefaultConfig() {
-    const config: any = await firstValueFrom(this.http.get('/assets/config.json'));
-    this.buildForm(config);
-  }
-
-  async importDefaultConfig() {
-    await this.loadDefaultConfig();
-  }
-
-  buildForm(config: any) {
+  buildForm() {
     this.quizForm = this.fb.group({
-      title: [config.title || '', Validators.required],
-      theme: this.fb.group({
-        backgroundImage: [config.theme?.backgroundImage || ''],
-        primaryColor: [config.theme?.primaryColor || ''],
-        secondaryColor: [config.theme?.secondaryColor || ''],
-        textColor: [config.theme?.textColor || ''],
-        buttonColor: [config.theme?.buttonColor || ''],
-        hoverColor: [config.theme?.hoverColor || ''],
-        fontFamily: [config.theme?.fontFamily || ''],
-        fontSize: [config.theme?.fontSize || '']
+      meta: this.fb.group({
+        title: ['', [Validators.required, Validators.minLength(3)]],
+        description: [''],
+        theme: this.fb.group({
+          primaryColor: ['#1e93ab'],
+          secondaryColor: ['#7ed6df'],
+          font: ['Poppins, sans-serif'],
+          backgroundColor: ['#f6fafd']
+        })
       }),
       settings: this.fb.group({
-        showImmediateFeedback: [config.settings?.showImmediateFeedback ?? true],
-        transitionTime: [config.settings?.transitionTime ?? 600],
-        passPercentage: [config.settings?.passPercentage ?? 60]
+        timeLimit: [0, [Validators.min(0), Validators.pattern(/^\d+$/)]], // Ensure number
+        passPercentage: [50, [Validators.min(0), Validators.max(100), Validators.pattern(/^\d+$/)]],
+        shuffleQuestions: [true],
+        allowBackNavigation: [false],
+        maxAttempts: [3, [Validators.min(1), Validators.pattern(/^\d+$/)]],
+        showCorrectAnswers: [true],
+        enableLeaderboard: [true],
+        allowSkips: [false],
+        questionTimer: [false],
+        randomizeOptions: [true],
+        showProgressBar: [true]
       }),
-      questions: this.fb.array(
-        (config.questions || []).map((q: any) =>
-          this.fb.group({
-            prompt: [q.prompt, Validators.required],
-            image: [q.image || ''],
-            answers: this.fb.group({
-              A: [q.answers?.A || '', Validators.required],
-              B: [q.answers?.B || '', Validators.required],
-              C: [q.answers?.C || '', Validators.required],
-              D: [q.answers?.D || '', Validators.required]
-            }),
-            correct: [q.correct, Validators.required]
-          })
-        )
-      )
+      questions: this.fb.array([this.createQuestion()])
     });
   }
 
   get questions(): FormArray {
-    return this.quizForm?.get('questions') as FormArray;
+    return this.quizForm.get('questions') as FormArray;
+  }
+
+  createQuestion(): AbstractControl<any, any> {
+    return this.fb.group({
+      type: ['multiple-choice', Validators.required],
+      prompt: ['', [Validators.required, Validators.minLength(3)]],
+      image: [''],
+      answers: this.fb.array([
+        this.createAnswer(),
+        this.createAnswer(),
+        this.createAnswer(),
+        this.createAnswer()
+      ])
+    }) ;
+  }
+
+  createAnswer(): FormGroup {
+    return this.fb.group({
+      text: ['', Validators.required],
+      isCorrect: [false]
+    });
   }
 
   addQuestion() {
-    this.questions.push(
-      this.fb.group({
-        prompt: ['', Validators.required],
-        image: [''],
-        answers: this.fb.group({
-          A: ['', Validators.required],
-          B: ['', Validators.required],
-          C: ['', Validators.required],
-          D: ['', Validators.required]
-        }),
-        correct: ['', Validators.required]
-      })
-    );
+    this.questions.push(this.createQuestion());
   }
 
-  removeQuestion(i: number) {
-    this.questions.removeAt(i);
-  }
-
-  async submitQuizForm() {
-    if (this.quizForm.invalid) return;
-    const config = this.quizForm.value;
-    const res: any = await firstValueFrom(this.http.post('http://localhost:4000/api/games', { config }));
-    if (res && res.gameId && res.code) {
-      this.lastGameId = res.gameId;
-      this.lastGameCode = res.code;
-      this.router.navigate(['/room', res.gameId]);
+  removeQuestion(index: number) {
+    if (this.questions.length > 1) {
+      this.questions.removeAt(index);
     }
   }
 
-  // For file upload
-  triggerFileInput() {
-    const input = document.getElementById('configFile') as HTMLInputElement;
-    if (input) input.click();
-  }
-
-  onConfigFile(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) return;
-    const file = input.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const config = JSON.parse(reader.result as string);
-        this.buildForm(config);
-      } catch (e) {
-        alert('Invalid config file.');
-      }
-    };
-    reader.readAsText(file);
-  }
-
-  async onJoinQuizWithActiveConfig() {
-    if (!this.joinCode) {
-      alert('Please enter a room code.');
+  submitQuiz() {
+    if (this.quizForm.invalid) {
+      this.quizForm.markAllAsTouched();
+      alert('Please fill in all required fields correctly.');
       return;
     }
-    this.router.navigate(['/quiz'], { queryParams: { code: this.joinCode } });
+    const quizData = this.quizForm.value;
+    const config = {
+      title: quizData.meta.title,
+      description: quizData.meta.description,
+      theme: {
+        ...quizData.meta.theme,
+        backgroundColor: [quizData.meta.theme.backgroundColor],
+        font: quizData.meta.theme.font.split(', ') as [string, string],
+      },
+      settings: quizData.settings,
+      questions: quizData.questions,
+    };
+    this.api.createGame(config).subscribe(
+      (response) => {
+        console.log('Quiz created successfully:', response);
+        alert('Quiz created successfully!');
+      },
+      (error) => {
+        console.error('Error creating quiz:', error);
+        alert('Error creating quiz. Please try again.');
+      }
+    );
   }
 }

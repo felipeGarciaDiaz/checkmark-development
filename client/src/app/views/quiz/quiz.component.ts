@@ -45,10 +45,10 @@ export class QuizComponent {
     this.selected.set(label);
     const cfg = this.config()!;
     const q = cfg.questions[this.current()];
-    this.lastCorrect = label === q.correct;
+    this.lastCorrect = label === q.answers.find(a => a.isCorrect)?.text;
     this.showFeedback = true;
 
-    if (cfg.settings.showImmediateFeedback) {
+    if (cfg.settings.showCorrectAnswers) {
       if (this.lastCorrect) this.score.set(this.score() + 1);
       else this.wrong.set(this.wrong() + 1);
     }
@@ -62,8 +62,8 @@ export class QuizComponent {
   next() {
     const cfg = this.config()!;
     const q = cfg.questions[this.current()];
-    if (!cfg.settings.showImmediateFeedback && this.selected()) {
-      if (this.selected() === q.correct) this.score.set(this.score() + 1);
+    if (!cfg.settings.showCorrectAnswers && this.selected()) {
+      if (this.selected() === q.answers.find(a => a.isCorrect)?.text) this.score.set(this.score() + 1);
       else this.wrong.set(this.wrong() + 1);
     }
     if (this.current() + 1 < cfg.questions.length) {

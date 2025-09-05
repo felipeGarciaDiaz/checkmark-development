@@ -37,7 +37,7 @@ export class ApiService {
 
   public getSearchRequests(query: string): Observable<any> {
 
-    const params = new HttpParams().set('copyright', query);
+   const params = new HttpParams().set('copyright', query);
 
     return this.http.get(`${this.url + this.type.checkmark}/getCopyrights`, {
       params: params
@@ -51,5 +51,13 @@ export class ApiService {
         return of(undefined);
       })
     );
+  }
+
+  public getDefaultConfig(): Observable<any> {
+    return this.http.get('/assets/config.json');
+  }
+
+  public createGame(config: any): Observable<any> {
+    return this.http.post(`${this.url}/api/games`, { config });
   }
 }
